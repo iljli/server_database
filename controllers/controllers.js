@@ -28,7 +28,7 @@ const sensor = async (req, res, next) => {
         })
     } else {
         console.log(req.body);
-        const {sensor_id, time, pressure, temperature, humidity, carbondioxide, organic } = req.body;
+        const { sensor_id, time, pressure, temperature, humidity, carbondioxide, organic } = req.body;
         console.log(`Pressure: ${pressure} hPa  Temp: ${temperature} °C  Humidtiy: ${humidity} % `)
         try {
             const newMeasurement = await Measurement.create({
@@ -41,11 +41,11 @@ const sensor = async (req, res, next) => {
             res.json(newMeasurement);
         }
         catch (err) {
-            res.status(500).send(err);
+            res.status(500).send(err.message);
         }
     }
-    
-    
+
+
     // const greetingText = "Sensor";
 
     // try {

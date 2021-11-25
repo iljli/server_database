@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+// ObjectId is automatically added by MongoDB
+
 const sensorSchema = new Schema({
     name: {type: String, min: 1, max: 50, required: true},
     location: {
@@ -21,6 +23,6 @@ const sensorSchema = new Schema({
     }
 )
 
-const Sensor = mongoose.model("Schema", sensorSchema);
+const Sensor = mongoose.model("Sensor", sensorSchema);
 
 module.exports = Sensor;

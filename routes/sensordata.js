@@ -2,9 +2,10 @@ var express = require('express');
 var router = express.Router();
 
 const Sensor = require("../models/Sensors");
+const Measurements = require("../models/Measurements");
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
@@ -29,7 +30,7 @@ router.post('/sensor', async (req, res, next) => {
         loc_name,
         loc_lat,
         loc_lng
-        },
+      },
       "config": {
         measurement_intervals,
         alarms
@@ -54,6 +55,39 @@ router.get('/sensor', async (req, res, next) => {
   catch (err) {
     res.status(500).send(err);
   }
+});
+
+router.get('/sensor/:sensor_id', async (req, res, next) => {
+  console.log("List all Sensors...");
+  const { sensor_id } = req.params;
+
+  try {
+    const sensor = await Sensor.find({ _id: sensor_id });
+    const measurements = await Measurements.find({ sensor_id });
+    const result = {
+      sensorData: sensor[0],
+      measurementsData: measurements
+    }
+    // console.log(measurements)
+    res.json(result);
+  }
+  catch (err) {
+    res.status(500).send(err);
+  }
+
+
+  // res.send('Here are the Measuremensts');
+  // console.log(sensor_id);
+
+  // const query = {"sensor_id": sensor_id};
+
+  // try {
+  //   const queryData = await Measurements.find(query);
+  //   res.json(queryData);
+  // }
+  // catch (err) {
+  //   res.status(500).send(err);
+  // }
 });
 
 

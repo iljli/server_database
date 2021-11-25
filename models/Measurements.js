@@ -1,16 +1,15 @@
 const mongoose = require('mongoose');
-const SchemaMeasurement = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-const measurementSchema = new SchemaMeasurement({
-    sensor_id: {type: Number},
-    temperature: {type: Number},
-    pressure: {type: Number},
-    humidity: {type: Number},
-    recorded_at: {type: Number},
-    
-    }
+const measurementSchema = new Schema({
+    sensor_id: Schema.Types.ObjectId, // to connect to the Sensors
+    temperature: Number,
+    pressure: Number,
+    humidity: Number,
+    recorded_at: Number,
+}
 )
 
-const Measurement = mongoose.model("SchemaMeasurement", measurementSchema);
+const Measurement = mongoose.model("Measurement", measurementSchema);
 
 module.exports = Measurement;
