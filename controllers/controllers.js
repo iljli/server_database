@@ -18,7 +18,7 @@ const greeting = async (req, res, next) => {
 const sensor = async (req, res, next) => {
     // console.log("Sensor...");
     const { data } = req.body;
-    if (Array.isArray(req.body)) {
+    if (Array.isArray(req.body)) { // several measurements
         const receivedData = req.body;
         console.log(receivedData);
         receivedData.forEach(data => {
@@ -27,9 +27,9 @@ const sensor = async (req, res, next) => {
 
         })
     } else {
-        console.log(req.body);
+        console.log(req.body); // one measurement
         const { sensor_id, time, pressure, temperature, humidity, carbondioxide, organic } = req.body;
-        console.log(`Pressure: ${pressure} hPa  Temp: ${temperature} °C  Humidtiy: ${humidity} % `)
+        console.log(` sensor_id: ${sensor_id}  Pressure: ${pressure} hPa  Temp: ${temperature} °C  Humidtiy: ${humidity} % `)
         try {
             const newMeasurement = await Measurement.create({
                 "sensor_id": sensor_id,
