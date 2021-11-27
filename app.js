@@ -7,7 +7,7 @@ var app = express();
 
 app.use(cors()); //Allowing cors for all origins
 
-const port = process.env.PORT || 3000;
+// const port = process.env.PORT || 3000;
 
 // var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/sensor');
@@ -17,8 +17,8 @@ var sensordataRouter = require('./routes/sensordata');
 var measuredDataRouter = require('./routes/measuredData');
 
 const {
-    greeting,
-    sensor,
+  greeting,
+  sensor,
 } = require('./controllers/controllers');
 
 app.use(express.json());
@@ -31,8 +31,8 @@ app.use('/users', usersRouter);
 app.use('/sensordata', sensordataRouter);
 app.use('/measurements', measuredDataRouter);
 
-app.listen(port, () => { 
-  console.log(`Backend app listening at http://localhost:${port}`) 
-})
+// app.listen(port, () => { 
+//   console.log(`Backend app listening at http://localhost:${port}`) 
+// })
 
 module.exports = app;

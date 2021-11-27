@@ -11,10 +11,11 @@ router.get('/', function (req, res, next) {
 
 router.post('/sensor', async (req, res, next) => {
   console.log("Create new Sensor...");
-
   const { name } = req.body;
   const { loc_name, loc_lat, loc_lng } = req.body.location;
   const { measurement_intervals, alarms } = req.body.config;
+  const { is_active } = req.body;
+
   console.log(name);
   console.log(loc_name);
   console.log(loc_lat);
@@ -34,7 +35,8 @@ router.post('/sensor', async (req, res, next) => {
       "config": {
         measurement_intervals,
         alarms
-      }
+      },
+      is_active
     });
     res.json(newStudent);
   }
