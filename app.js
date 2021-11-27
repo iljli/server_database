@@ -7,7 +7,7 @@ var app = express();
 
 app.use(cors()); //Allowing cors for all origins
 
-const port = process.env.PORT || 3000;
+// const port = process.env.PORT || 3000;
 
 // var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/sensor');
