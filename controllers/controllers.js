@@ -22,14 +22,21 @@ const sensor = async (req, res, next) => {
         const receivedData = req.body;
         console.log(receivedData);
         receivedData.forEach(data => {
-            const { time, pressure, temperature, humidity, carbondioxide, organic } = data;
-            console.log(`...Pressure: ${pressure} hPa  Temp: ${temperature} °C  Humidtiy: ${humidity}`)
+            const { sensor_id, recorded_at, pressure, temperature, humidity, carbondioxide, organic } = data;
+            console.log(`sensor_id: ${sensor_id}  recorded_at: ${recorded_at}  Pressure: ${pressure} hPa  Temp: ${temperature} °C  Humidtiy: ${humidity}`)
 
         })
+        try {
+            const newMeasurement = await Measurement.insertMany(receivedData);
+            res.json(newMeasurement);
+        }
+        catch (err) {
+            res.status(500).send(err.message);
+        }
     } else {
         console.log(req.body); // one measurement
         const { sensor_id, time, pressure, temperature, humidity, carbondioxide, organic } = req.body;
-        console.log(` sensor_id: ${sensor_id}  Pressure: ${pressure} hPa  Temp: ${temperature} °C  Humidtiy: ${humidity} % `)
+        console.log(`Pressure: ${pressure} hPa  Temp: ${temperature} °C  Humidtiy: ${humidity} % `)
         try {
             const newMeasurement = await Measurement.create({
                 "sensor_id": sensor_id,

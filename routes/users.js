@@ -1,35 +1,48 @@
 var express = require('express');
 var router = express.Router();
 
-const Student = require("../models/Sensors");
+const User = require("../models/Sensors"); // ToDo - create model and replace
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+/**************************************************/
+// 
+// http://localhost:3000/users
+/**************************************************/
+router.get('/', function (req, res, next) {
+  res.send('Placeholder...');
 });
 
-router.post('/student', async (req, res, next) => {
-  console.log("Create new Student...");
 
-  const { name, first_name, email } = req.body;
+/**************************************************/
+// 
+// http://localhost:3000/create_user
+/**************************************************/
+router.post('/create_user', async (req, res, next) => {
+  console.log("Create new User...");
+
+  const { name, first_name, email } = req.body; // ToDo
   try {
-    const newStudent = await Student.create({
+    const newUser = await User.create({
       name,
       first_name,
       email,
     });
-    res.json(newStudent);
+    res.json(newUser);
   }
   catch (err) {
     res.status(500).send(err);
   }
 });
 
-router.get('/student', async (req, res, next) => {
-  console.log("List all Students...");
+
+/**************************************************/
+// 
+// http://localhost:3000/list_users
+/**************************************************/
+router.get('/list_users', async (req, res, next) => {
+  console.log("List all Users...");
 
   try {
-    const students = await Student.find();
+    const students = await User.find();
     res.json(students);
   }
   catch (err) {

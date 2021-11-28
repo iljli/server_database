@@ -2,19 +2,28 @@ var express = require('express');
 var router = express.Router();
 
 const Sensor = require("../models/Sensors");
-const Measurements = require("../models/Measurements");
 
-/* GET users listing. */
+
+/**************************************************/
+// 
+// http://localhost:3000/sensordata
+/**************************************************/
 router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
+  res.send('Placeholder...');
 });
 
-router.post('/sensor', async (req, res, next) => {
-  console.log("Create new Sensor...");
 
+/**************************************************/
+// create a new sensor
+// http://localhost:3000/sensordata/create_sensor
+/**************************************************/
+router.post('/create_sensor', async (req, res, next) => {
+  console.log("Create new Sensor...");
   const { name } = req.body;
   const { loc_name, loc_lat, loc_lng } = req.body.location;
   const { measurement_intervals, alarms } = req.body.config;
+  const { is_active } = req.body;
+
   console.log(name);
   console.log(loc_name);
   console.log(loc_lat);
@@ -34,7 +43,8 @@ router.post('/sensor', async (req, res, next) => {
       "config": {
         measurement_intervals,
         alarms
-      }
+      },
+      is_active
     });
     res.json(newStudent);
   }
@@ -44,9 +54,12 @@ router.post('/sensor', async (req, res, next) => {
 });
 
 
-
-router.get('/sensor', async (req, res, next) => {
-  console.log("List all Sensors...");
+/**************************************************/
+// list all known Sensors
+// http://localhost:3000/sensordata/list_sensors
+/**************************************************/
+router.get('/list_sensors', async (req, res, next) => {
+  console.log("List all known Sensors...");
 
   try {
     const students = await Sensor.find();
@@ -57,38 +70,7 @@ router.get('/sensor', async (req, res, next) => {
   }
 });
 
-router.get('/sensor/:sensor_id', async (req, res, next) => {
-  console.log("List all Sensors...");
-  const { sensor_id } = req.params;
 
-  try {
-    const sensor = await Sensor.find({ _id: sensor_id });
-    const measurements = await Measurements.find({ sensor_id });
-    const result = {
-      sensorData: sensor[0],
-      measurementsData: measurements
-    }
-    // console.log(measurements)
-    res.json(result);
-  }
-  catch (err) {
-    res.status(500).send(err);
-  }
-
-
-  // res.send('Here are the Measuremensts');
-  // console.log(sensor_id);
-
-  // const query = {"sensor_id": sensor_id};
-
-  // try {
-  //   const queryData = await Measurements.find(query);
-  //   res.json(queryData);
-  // }
-  // catch (err) {
-  //   res.status(500).send(err);
-  // }
-});
 
 
 
