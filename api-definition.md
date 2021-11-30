@@ -43,28 +43,57 @@ http://localhost:3000/users/list_users
 
 [
     {
-        "_id": "61a4eb3885f577bc0bffdb25",
-        "username": "bobuser",
-        "first_name": "Bob",
+        "_id": "61a635a8d1e67a94c26d3689",
+        "username": "tomuser",
+        "first_name": "Tom",
         "last_name": "Lastname",
-        "email": "bob.lastnmae@sensor.de",
+        "email": "tom.lastname@sensor.de",
         "password": "secure",
         "sensors": [
-            "61a113c27944dd3c610881fa",
-            "61a3a947944740a39b921182"
-        ],
-        "__v": 0
-    },
-    {
-        "_id": "61a51e53a704f9ebdb96b379",
-        "username": "uschi",
-        "first_name": "Uschi",
-        "last_name": "Muffin",
-        "email": "uschi@wbs.de",
-        "password": "verystrong",
-        "sensors": [
-            "61a113c27944dd3c610881fa",
-            "61a3a947944740a39b921182"
+            {
+                "location": {
+                    "loc_name": "LocationName4",
+                    "loc_lat": 50,
+                    "loc_lng": 51
+                },
+                "config": {
+                    "measurement_intervals": 900000,
+                    "alarms": [
+                        {
+                            "treshold": 20,
+                            "measurement_type": "temperature",
+                            "operator": ">",
+                            "_id": "61a638e30a2846a9f92c1196"
+                        }
+                    ]
+                },
+                "_id": "61a638e30a2846a9f92c1195",
+                "name": "SensorName4",
+                "is_active": "true",
+                "__v": 0
+            },
+            {
+                "location": {
+                    "loc_name": "LocationName5",
+                    "loc_lat": 50,
+                    "loc_lng": 52
+                },
+                "config": {
+                    "measurement_intervals": 1800000,
+                    "alarms": [
+                        {
+                            "treshold": 20,
+                            "measurement_type": "temperature",
+                            "operator": ">",
+                            "_id": "61a643dd1594bfd4b85973ff"
+                        }
+                    ]
+                },
+                "_id": "61a643dd1594bfd4b85973fe",
+                "name": "SensorName5",
+                "is_active": "true",
+                "__v": 0
+            }
         ],
         "__v": 0
     }

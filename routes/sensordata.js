@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const Sensor = require("../models/Sensors");
+const User = require("../models/Users");
 
 
 /**************************************************/
@@ -14,12 +15,12 @@ router.get('/', function (req, res, next) {
 
 
 /**************************************************/
-// create a new sensor
+// create a new sensor and attach it to a user
 // http://localhost:3000/sensordata/create_sensor
 /**************************************************/
 router.post('/create_sensor', async (req, res, next) => {
   console.log("Create new Sensor...");
-  const { name } = req.body;
+  const { name, user_id } = req.body;
   const { loc_name, loc_lat, loc_lng } = req.body.location;
   const { measurement_intervals, alarms } = req.body.config;
   const { is_active } = req.body;
@@ -33,7 +34,7 @@ router.post('/create_sensor', async (req, res, next) => {
 
   // storing the data to MongoDB
   try {
-    const newStudent = await Sensor.create({
+    const newSensor = await Sensor.create({
       name,
       "location": {
         loc_name,
@@ -46,7 +47,8 @@ router.post('/create_sensor', async (req, res, next) => {
       },
       is_active
     });
-    res.json(newStudent);
+    await User.findByIdAndUpdate(user_id, {$push: {sensors: newSensor._id}})
+    res.json(newSensor);
   }
   catch (err) {
     res.status(500).send(err);
