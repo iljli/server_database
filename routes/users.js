@@ -71,7 +71,7 @@ router.get('/list_users', async (req, res, next) => {
 // List userdata and the user's sensors
 // http://localhost:3000/users/list_userdata
 /**************************************************/
-router.get('/list_userdata', async (req, res, next) => {
+router.post('/list_userdata', async (req, res, next) => {
   console.log("List data of a users...");
 
   let { username, new_sensor } = req.body;
