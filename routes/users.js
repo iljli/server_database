@@ -68,7 +68,7 @@ router.get('/list_users', async (req, res, next) => {
 
 
 /**************************************************/
-// 
+// List userdata and the user's sensors
 // http://localhost:3000/users/list_userdata
 /**************************************************/
 router.get('/list_userdata', async (req, res, next) => {
@@ -83,7 +83,7 @@ router.get('/list_userdata', async (req, res, next) => {
 
     const query = { "username": username }
     try {
-      const data = await User.find(query);
+      const data = await User.find(query).populate("sensors");
       res.json(data);
     }
     catch (err) {
