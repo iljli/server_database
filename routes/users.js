@@ -1,14 +1,35 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 const User = require("../models/Users"); // ToDo - create model and replace
 
 /**************************************************/
 // 
-// http://localhost:3000/users
+// http://localhost:3000/users/login
 /**************************************************/
-router.get('/', function (req, res, next) {
-  res.send('Placeholder...');
+router.post('/login', async (req, res, next) => {
+
+  const { username, password } = req.body;
+
+
+  try {
+    const [user] = await User.find({ username }).populate('sensors');
+
+    if (!user) {
+      return res.status(404).send('No such user')
+    }
+
+    if (password !== user.password) {
+      return res.status(401).send('Invalid credentials')
+    }
+
+    res.json(user);
+  }
+  catch (err) {
+    res.status(500).send(err.message);
+  }
+
+
 });
 
 
@@ -71,7 +92,7 @@ router.get('/list_users', async (req, res, next) => {
 // List userdata and the user's sensors
 // http://localhost:3000/users/list_userdata
 /**************************************************/
-router.get('/list_userdata', async (req, res, next) => {
+router.post('/list_userdata', async (req, res, next) => {
   console.log("List data of a users...");
 
   let { username, new_sensor } = req.body;
@@ -268,6 +289,8 @@ router.post('/update_userdata', async (req, res, next) => {
   }
 
 });
+
+
 
 
 module.exports = router;
