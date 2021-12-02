@@ -38,15 +38,18 @@ router.get('/:sensor_id', async (req, res, next) => {
 
 /**************************************************/
 // get Sensordata and its Measurements
-// http://localhost:3000/measurements/sensor/61a113c27944dd3c610881fa
+// 2. param: limit number of results
+// http://localhost:3000/measurements/sensor/61a113c27944dd3c610881fa/20
 /**************************************************/
-router.get('/sensor/:sensor_id', async (req, res, next) => {
+router.get('/sensor/:sensor_id/:countlimit', async (req, res, next) => {
   console.log("Get Sensordata and its Measurements...");
-  const { sensor_id } = req.params;
+  const { sensor_id, countlimit } = req.params;
+  const countlimit_int = Number(countlimit);
+  console.log(countlimit_int);
 
   try {
     const sensor = await Sensor.find({ _id: sensor_id });
-    const measurements = await Measurements.find({ sensor_id });
+    const measurements = await Measurements.find({ sensor_id }).sort({ recorded_at: -1 }).limit(countlimit_int);
     const result = {
       sensorData: sensor[0],
       measurementsData: measurements
