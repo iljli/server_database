@@ -73,8 +73,8 @@ router.get('/sensor/:sensor_id/:countlimit', async (req, res, next) => {
 router.get('/slice/:sensor_id/:start/:end/:countlimit', async (req, res, next) => {
   console.log("Get Sensordata and its Measurements...");
   let { sensor_id, countlimit, start, end } = req.params;
-  const countlimit_int = Number(countlimit);
-  // console.log(countlimit_int);
+  let countlimit_int = Number(countlimit);
+  console.log(`countlimit_int: ${countlimit_int}`);
 
 
   let temp_mw = 0;
@@ -101,9 +101,9 @@ router.get('/slice/:sensor_id/:start/:end/:countlimit', async (req, res, next) =
     const measurements = await Measurements.find({ $and: [{ sensor_id }, { recorded_at: { $gt: start, $lt: end } }] }).sort({ recorded_at: -1 });
 
     const numberOfDatasets = measurements.length;
-    if (countlimit < 1) countlimit = 1;
-    if (countlimit < numberOfDatasets) countlimit = numberOfDatasets;
-    const width = Math.floor(numberOfDatasets / countlimit);
+    if (countlimit_int < 1) countlimit_int = 1;
+    if (countlimit_int > numberOfDatasets) countlimit_int = numberOfDatasets;
+    const width = Math.floor(numberOfDatasets / countlimit_int);
 
     console.log(`numberOfDatasets: ${numberOfDatasets}`);
     console.log(`width: ${width}`);
