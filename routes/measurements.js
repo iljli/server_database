@@ -70,12 +70,13 @@ router.get('/sensor/:sensor_id/:countlimit', async (req, res, next) => {
 // start: oldest value
 // end: newest value
 /**************************************************/
-router.get('/slice/:sensor_id/:start/:end/:countlimit', async (req, res, next) => {
+router.get('/slice/:sensor_id/:start_string/:end_string/:countlimit_string', async (req, res, next) => {
   console.log("Get Sensordata and its Measurements...");
-  let { sensor_id, countlimit, start, end } = req.params;
-  let countlimit_int = Number(countlimit);
-  console.log(`countlimit_int: ${countlimit_int}`);
+  const { sensor_id, countlimit_string, start_string, end_string } = req.params;
 
+  let start = Number(start_string);
+  let end = Number(end_string);
+  let countlimit = Number(countlimit_string);
 
   let temp_mw = 0;
   let pres_mw = 0;
@@ -91,19 +92,24 @@ router.get('/slice/:sensor_id/:start/:end/:countlimit', async (req, res, next) =
     const recordOldest = await Measurements.find({ sensor_id }, { _id: 0, "recorded_at": 1 }).sort({ recorded_at: 1 }).limit(1);
     const { recorded_at: newestTimestamp } = recordNewest[0];
     const { recorded_at: oldestTimestamp } = recordOldest[0];
-    console.log(`newestTimestamp: ${newestTimestamp}`);
-    console.log(`asked start: ${start}`);
-    console.log(`asked end: ${end}`);
 
+    if (typeof start === 'undefined' || start === null || Number.isNaN(start)) start = oldestTimestamp;
+    if (typeof end === 'undefined' || end === null || Number.isNaN(end)) end = newestTimestamp;
     if (start < oldestTimestamp) start = oldestTimestamp;
     if (end > newestTimestamp) start = newestTimestamp;
+    console.log(`countlimit_int: ${countlimit}`);
+    console.log(`newestTimestamp: ${newestTimestamp}`);
+    console.log(`oldestTimestamp: ${oldestTimestamp}`);
+    console.log(`asked start: ${start}`);
+    console.log(`asked end: ${end}`);
 
     const measurements = await Measurements.find({ $and: [{ sensor_id }, { recorded_at: { $gt: start, $lt: end } }] }).sort({ recorded_at: -1 });
 
     const numberOfDatasets = measurements.length;
-    if (countlimit_int < 1) countlimit_int = 1;
-    if (countlimit_int > numberOfDatasets) countlimit_int = numberOfDatasets;
-    const width = Math.floor(numberOfDatasets / countlimit_int);
+    if (!countlimit) countlimit = 1;
+    if (countlimit < 1) countlimit = 1;
+    if (countlimit > numberOfDatasets) countlimit = numberOfDatasets;
+    const width = Math.floor(numberOfDatasets / countlimit);
 
     console.log(`numberOfDatasets: ${numberOfDatasets}`);
     console.log(`width: ${width}`);
