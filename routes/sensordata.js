@@ -25,12 +25,12 @@ router.post('/create_sensor', async (req, res, next) => {
   const { measurement_intervals, alarms } = req.body.config;
   const { is_active } = req.body;
 
-  console.log(name);
-  console.log(loc_name);
-  console.log(loc_lat);
-  console.log(loc_lng);
-  console.log(measurement_intervals);
-  console.log(alarms);
+  console.log(`name: ${name}`);
+  console.log(`loc_name: ${loc_name}`);
+  console.log(`loc_lat: ${loc_lat}`);
+  console.log(`loc_lng: ${loc_lng}`);
+  console.log(`measurement_intervals: ${measurement_intervals}`);
+  console.log(`alarms: ${alarms}`);
 
   // storing the data to MongoDB
   try {
@@ -47,7 +47,7 @@ router.post('/create_sensor', async (req, res, next) => {
       },
       is_active
     });
-    await User.findByIdAndUpdate(user_id, {$push: {sensors: newSensor._id}})
+    await User.findByIdAndUpdate(user_id, { $push: { sensors: newSensor._id } })
     res.json(newSensor);
   }
   catch (err) {

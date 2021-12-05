@@ -50,8 +50,8 @@ router.post('/create_user', async (req, res, next) => {
     sensors,
   } = req.body;
 
-  username = username.toLowerCase();
-  email = email.toLowerCase();
+  if (username) username = username.toLowerCase();
+  if (email) email = email.toLowerCase();
 
   try {
     const newUser = await User.create({
