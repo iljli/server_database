@@ -165,17 +165,16 @@ http://localhost:3000/users/delete_user
 http://localhost:3000/users/update_userdata
 
 # Input:
-* required value: "username"
+* required value: "_id"
 * optional value: all other
 
 {
-  "username": "bobuser",
-  "new_username": "Uschi",
-  "first_name": "Bob",
-  "last_name": "Lastname",
-  "email": "bob.lastname@sensor.de",
-  "password": "secure",
- }
+   "username": "timuser",
+   "first_name": "Tim",
+   "last_name": "Lastname",
+   "email": "tim.lastname@wbs.de",
+   "password": "secure",
+}
 
 # Output:
 

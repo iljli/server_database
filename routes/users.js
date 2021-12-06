@@ -232,21 +232,22 @@ router.post('/delete_user', async (req, res, next) => {
 // Update a user
 // http://localhost:3000/users/update_userdata
 // 
+// the user is identified by _id that never changes
+// 
 // in the html-body:
-// * required: username
+// * required: _id, username
 // * all other params are optional
 //  
 // {
-//   "username": "bobuser",
-//   "new_username": "Uschi",
-//   "first_name": "Bob",
+//   "username": "timuser",
+//   "first_name": "Tim",
 //   "last_name": "Lastname",
-//   "email": "bob.lastname@sensor.de",
+//   "email": "tim.lastname@wbs.de",
 //   "password": "secure",
 //  }
 // * example:
 // {
-//   "username": "bobuser",
+//   "username": "timuser",
 //   "last_name": "Lastname",
 //   "password": "secure",
 //  }
@@ -256,26 +257,29 @@ router.post('/delete_user', async (req, res, next) => {
 // - validation - need to check for valid values
 // 
 /**************************************************/
+
 router.post('/update_userdata', async (req, res, next) => {
   console.log("Update userdata...");
 
-  let { username, new_username } = req.body;
+  let { _id, username, first_name, last_name, email, password } = req.body;
   console.log(req.body);
   let updateObj = await req.body;
   console.log(req.body);
 
-  if (username) {
-    username = username.toLowerCase();
-    if (new_username) {
-      new_username = new_username.toLowerCase();
-      updateObj.username = new_username;
-      delete updateObj.new_username;
-      console.log(req.body);
+  if (_id) {
+
+    const updateObj = {
+      password: password,
+      username: username,
+      first_name: first_name,
+      last_name: last_name,
+      email: email,
+      password: password,
     }
 
     try {
-      const data = await User.updateOne(
-        { "username": username },
+      const data = await User.updateMany(
+        { "_id": _id },
         { $set: updateObj }
       )
       res.json(data);
@@ -284,7 +288,7 @@ router.post('/update_userdata', async (req, res, next) => {
       res.status(500).send(err);
     }
   } else {
-    const err = "Error: No username provided";
+    const err = "Error: No user-id provided";
     res.status(500).send(err);
   }
 
